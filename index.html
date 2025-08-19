@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Escola Exemplo</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+  <!-- Tela de login -->
+  <div id="login-container">
+    <h2>Portal de Matrícula</h2>
+    <form id="loginForm">
+      <label for="nomeAluno">Nome do Aluno:</label>
+      <input type="text" id="nomeAluno" placeholder="Nome completo" required>
+
+      <label for="emailResponsavel">E-mail do Responsável:</label>
+      <input type="email" id="emailResponsavel" placeholder="email@exemplo.com" required>
+
+      <label for="nomePais">Nome dos Pais:</label>
+      <input type="text" id="nomePais" placeholder="Nome dos pais" required>
+
+      <button type="submit">Entrar / Matricular</button>
+    </form>
+  </div>
+
+  <!-- Cabeçalho -->
+  <header id="header" style="display:none;">
+    <h1>📚 Escola Exemplo</h1>
+    <nav>
+      <ul>
+        <li><a href="#">Início</a></li>
+        <li><a href="#">Sobre</a></li>
+        <li><a href="#">Turmas</a></li>
+        <li><a href="#">Contato</a></li>
+        <li><button id="logoutBtn">Sair</button></li>
+      </ul>
+    </nav>
+  </header>
+
+  <!-- Conteúdo principal -->
+  <main id="main" style="display:none;">
+    <h2>Bem-vindo, <span id="nomeAlunoDisplay"></span>!</h2>
+    
+    <section>
+      <h2>Turmas disponíveis</h2>
+      <ul id="listaTurmas"></ul>
+    </section>
+  </main>
+
+  <footer id="footer" style="display:none;">
+    <p>&copy; 2025 Escola Exemplo. Todos os direitos reservados.</p>
+  </footer>
+
+  <script src="script.js"></script>
+
+</body>
+</html>
