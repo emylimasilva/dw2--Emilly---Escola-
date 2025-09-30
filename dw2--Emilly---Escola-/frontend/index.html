@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>Gestão Escolar</title>
+	<link rel="stylesheet" href="style.css">
+	<link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet">
+</head>
+
+<body>
+	<!-- Tela de Login -->
+	<div id="tela-login" class="modal" style="display:flex; background:var(--cor-fundo, #F1F5F9); z-index:200;">
+		<form id="form-login" style="background:#fff; border-radius:8px; padding:2rem 1.5rem; min-width:320px; box-shadow:0 2px 16px rgba(0,0,0,0.08); display:flex; flex-direction:column; gap:0.8rem; align-items:center;">
+			<h2 style="color:var(--cor-primaria,#2563EB);">Bem-vindo à Gestão Escolar</h2>
+			<label for="login-nome">Nome do Aluno*</label>
+			<input type="text" id="login-nome" name="login-nome" required minlength="3" maxlength="80" placeholder="Digite seu nome">
+			<label for="login-email">Email*</label>
+			<input type="email" id="login-email" name="login-email" required placeholder="Digite seu email">
+			<button type="submit" style="background:var(--cor-secundaria,#10B981); color:#fff; border:none; border-radius:4px; padding:0.6rem 1.2rem; font-size:1rem; cursor:pointer; margin-top:1rem;">Entrar</button>
+		</form>
+	</div>
+
+	<div id="conteudo-app" style="display:none;">
+		<header class="header">
+			<h1>Gestão Escolar</h1>
+			<input type="search" id="busca-aluno" placeholder="Buscar aluno por nome..." aria-label="Buscar aluno">
+		</header>
+		<main class="container">
+			<aside class="sidebar">
+				<h2>Filtros</h2>
+				<label for="filtro-turma">Turma:</label>
+				<select id="filtro-turma" aria-label="Filtrar por turma">
+					<option value="">Todas</option>
+				</select>
+				<label for="filtro-status">Status:</label>
+				<select id="filtro-status" aria-label="Filtrar por status">
+					<option value="">Todos</option>
+					<option value="ativo">Ativo</option>
+					<option value="inativo">Inativo</option>
+				</select>
+				<label for="ordenar">Ordenar por:</label>
+				<select id="ordenar" aria-label="Ordenar alunos">
+					<option value="nome">Nome (A-Z)</option>
+					<option value="data_nascimento">Data de Nascimento</option>
+				</select>
+				<button id="btn-novo-aluno" aria-label="Novo Aluno" accesskey="n">Novo Aluno (Alt+N)</button>
+				<button id="btn-nova-matricula" aria-label="Nova Matrícula" accesskey="m">Nova Matrícula (Alt+M)</button>
+				<div class="indicadores">
+					<p>Total de alunos: <span id="total-alunos">0</span></p>
+					<p>Ativos: <span id="total-ativos">0</span></p>
+				</div>
+			</aside>
+			<section class="principal">
+				<h2>Alunos</h2>
+				<div style="margin-bottom:1rem; display:flex; gap:0.5rem;">
+					<button id="exportar-csv">Exportar CSV</button>
+					<button id="exportar-json">Exportar JSON</button>
+				</div>
+				<table id="tabela-alunos" aria-label="Tabela de alunos">
+					<thead>
+						<tr>
+							<th>Nome</th>
+							<th>Data de Nascimento</th>
+							<th>Email</th>
+							<th>Status</th>
+							<th>Turma</th>
+							<th>Ações</th>
+						</tr>
+					</thead>
+					<tbody>
+						<!-- Alunos serão inseridos aqui via JS -->
+					</tbody>
+				</table>
+				<div class="paginacao" id="paginacao"></div>
+			</section>
+		</main>
+	</div>
+
+	<!-- Modal Novo Aluno -->
+	<div class="modal" id="modal-novo-aluno" aria-modal="true" role="dialog" tabindex="-1" hidden>
+		<form id="form-novo-aluno">
+			<h3 id="titulo-modal-aluno">Novo Aluno</h3>
+			<input type="hidden" id="aluno_id" name="aluno_id">
+			<label for="nome">Nome*</label>
+			<input type="text" id="nome" name="nome" required minlength="3" maxlength="80">
+			<label for="data_nascimento">Data de Nascimento*</label>
+			<input type="date" id="data_nascimento" name="data_nascimento" required>
+			<label for="email">Email</label>
+			<input type="email" id="email" name="email">
+			<label for="status">Status*</label>
+			<select id="status" name="status" required>
+				<option value="ativo">Ativo</option>
+				<option value="inativo">Inativo</option>
+			</select>
+			<label for="turma_id">Turma</label>
+			<select id="turma_id" name="turma_id">
+				<option value="">Nenhuma</option>
+			</select>
+			<button type="submit">Salvar</button>
+			<button type="button" id="fechar-modal-aluno">Cancelar</button>
+		</form>
+	</div>
+
+	<!-- Modal Nova Matrícula -->
+	<div class="modal" id="modal-nova-matricula" aria-modal="true" role="dialog" tabindex="-1" hidden>
+		<form id="form-nova-matricula">
+			<h3>Nova Matrícula</h3>
+			<label for="aluno_id">Aluno*</label>
+			<select id="aluno_id" name="aluno_id" required></select>
+			<label for="turma_id_matricula">Turma*</label>
+			<select id="turma_id_matricula" name="turma_id_matricula" required></select>
+			<button type="submit">Matricular</button>
+			<button type="button" id="fechar-modal-matricula">Cancelar</button>
+		</form>
+	</div>
+
+	<script src="script.js"></script>
+</body>
+</html>

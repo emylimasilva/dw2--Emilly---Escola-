@@ -79,19 +79,43 @@ def deletar_turma(id: int, db: Session = Depends(get_db)):
     return {"ok": True}
 
 # Endpoints Aluno
+
 @app.post("/alunos")
 def criar_aluno(aluno: AlunoCreate, db: Session = Depends(get_db)):
+    # Validação faixa etária mínima (5 anos)
+    hoje = date.today()
+    idade = hoje.year - aluno.data_nascimento.year - ((hoje.month, hoje.day) < (aluno.data_nascimento.month, aluno.data_nascimento.day))
+    if idade < 5:
+        raise HTTPException(status_code=422, detail="O aluno deve ter pelo menos 5 anos de idade.")
+    # Validação de email (se preenchido)
+    if aluno.email and ("@" not in aluno.email or "." not in aluno.email):
+        raise HTTPException(status_code=422, detail="Email inválido.")
+    # Validação de status
+    if aluno.status not in ["ativo", "inativo"]:
+        raise HTTPException(status_code=422, detail="Status inválido.")
     novo_aluno = Aluno(**aluno.dict())
     db.add(novo_aluno)
     db.commit()
     db.refresh(novo_aluno)
     return novo_aluno
 
+
 @app.put("/alunos/{id}")
 def editar_aluno(id: int, aluno: AlunoCreate, db: Session = Depends(get_db)):
     a = db.query(Aluno).filter(Aluno.id == id).first()
     if not a:
         raise HTTPException(status_code=404, detail="Aluno não encontrado")
+    # Validação faixa etária mínima (5 anos)
+    hoje = date.today()
+    idade = hoje.year - aluno.data_nascimento.year - ((hoje.month, hoje.day) < (aluno.data_nascimento.month, aluno.data_nascimento.day))
+    if idade < 5:
+        raise HTTPException(status_code=422, detail="O aluno deve ter pelo menos 5 anos de idade.")
+    # Validação de email (se preenchido)
+    if aluno.email and ("@" not in aluno.email or "." not in aluno.email):
+        raise HTTPException(status_code=422, detail="Email inválido.")
+    # Validação de status
+    if aluno.status not in ["ativo", "inativo"]:
+        raise HTTPException(status_code=422, detail="Status inválido.")
     a.nome = aluno.nome
     a.data_nascimento = aluno.data_nascimento
     a.email = aluno.email
